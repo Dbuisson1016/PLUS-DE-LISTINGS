@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Évaluation gratuite de votre propriété</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold-light:rgba(201,168,76,0.12);--gold-border:rgba(201,168,76,0.35);
+  --dark:#0B1F4A;--dark2:#0F2A5E;--dark3:#143272;--dark4:#1A3D85;
+  --text:#FFFFFF;--text2:#B8CCEA;--text3:#8AADD4;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --red:#E05252;--green:#4CAF8A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 60px;height:64px;background:rgba(11,31,74,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;color:#6B3FA0;text-decoration:none;letter-spacing:-0.3px}
+.nav-tag{font-size:13px;color:var(--text3)}
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:100px 24px 80px}
+.card{width:100%;max-width:640px;background:var(--dark2);border:1px solid var(--border);border-radius:20px;padding:48px 44px}
+.top-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#6B3FA0;background:var(--gold-light);border:1px solid var(--gold-border);padding:6px 16px;border-radius:100px;margin-bottom:28px;letter-spacing:.3px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#6B3FA0;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.page-title{font-family:'Outfit',sans-serif;font-size:clamp(30px,5vw,52px);font-weight:900;line-height:1.0;letter-spacing:-0.5px;margin-bottom:14px;text-align:center}
+.page-title em{font-style:italic;color:#6B3FA0}
+.page-sub{font-size:15px;color:var(--text3);text-align:center;max-width:500px;line-height:1.7;margin-bottom:44px}
+.progress-wrap{display:flex;gap:8px;margin-bottom:36px}
+.progress-step{flex:1;display:flex;flex-direction:column;gap:6px}
+.pbar{height:3px;border-radius:2px;background:var(--border2);transition:background .4s}
+.pbar.done{background:#6B3FA0}
+.plbl{font-size:11px;color:var(--text3);letter-spacing:.3px}
+.plbl.active{color:#6B3FA0}
+.step-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.step-tag{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#6B3FA0;margin-bottom:10px}
+.step-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px}
+.step-sub{font-size:14px;color:var(--text3);margin-top:6px;line-height:1.6}
+.field{margin-bottom:20px}
+.flbl{display:block;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.req{color:var(--red);margin-left:2px}
+.opt{color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;font-size:11px}
+.finput,.fselect,.ftextarea{width:100%;padding:13px 16px;background:var(--dark3);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:all .2s;appearance:none;-webkit-appearance:none}
+.finput:focus,.fselect:focus,.ftextarea:focus{border-color:#6B3FA0;background:var(--dark4)}
+.fselect{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A09D96' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;cursor:pointer}
+.fselect option{background:var(--dark3);color:var(--text)}
+.ftextarea{resize:vertical;min-height:80px}
+.fhint{font-size:12px;color:var(--text3);margin-top:6px}
+.char-count{font-size:12px;color:var(--text3);text-align:right;margin-top:4px}
+.ferror{font-size:12px;color:var(--red);margin-top:5px;display:none}
+.field.err .finput,.field.err .fselect,.field.err .ftextarea{border-color:var(--red)}
+.field.err .ferror{display:block}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.iprefix-wrap{position:relative}
+.iprefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
+.iprefix-wrap .finput{padding-left:30px}
+/* TYPE GRID — 5 boutons avec icônes */
+.type-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tbtn{padding:16px 6px;border-radius:12px;border:1px solid var(--border2);background:var(--dark3);color:var(--text2);cursor:pointer;text-align:center;transition:all .2s;font-family:'Inter',sans-serif}
+.tbtn:hover{border-color:var(--gold-border);background:var(--gold-light);color:var(--text)}
+.tbtn.sel{border-color:#6B3FA0;background:var(--gold-light);color:#6B3FA0}
+.ticon{font-size:22px;margin-bottom:6px;display:block}
+.tlbl{font-size:11px;font-weight:500;line-height:1.3}
+/* BOUTONS */
+.btn-p{width:100%;padding:16px;border-radius:8px;border:none;background:#6B3FA0;color:var(--dark);font-family:'Inter',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:8px}
+.btn-p:hover{background:#D4B060;transform:translateY(-1px)}
+.btn-s{width:100%;padding:14px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:'Inter',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;margin-top:10px}
+.btn-s:hover{border-color:var(--border);color:var(--text)}
+/* LEGAL */
+.legal{font-size:12px;color:var(--text3);line-height:1.65;padding:16px;background:var(--dark3);border-radius:8px;margin-bottom:20px;border:1px solid var(--border)}
+/* RÉSULTATS */
+.res-header{text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.res-header h2{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px}
+.res-header p{font-size:14px;color:var(--text3)}
+.res-section{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+.res-section-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+.res-main{text-align:center;padding:32px 24px;background:var(--gold-light);border:1px solid var(--gold-border);border-radius:14px;margin-bottom:16px}
+.res-main-lbl{font-size:12px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.res-range{font-family:'Outfit',sans-serif;font-size:38px;font-weight:700;color:#6B3FA0;line-height:1;margin-bottom:10px}
+.res-note{font-size:12px;color:var(--text3);line-height:1.65;max-width:420px;margin:0 auto}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ritem{background:var(--dark4);border-radius:10px;padding:16px 18px}
+.ritem-lbl{font-size:11px;color:var(--text3);margin-bottom:4px;letter-spacing:.3px}
+.ritem-val{font-size:18px;font-weight:600;color:var(--text)}
+.ritem-src{font-size:10px;color:var(--text3);margin-top:4px;line-height:1.4}
+.ritem.gold .ritem-val{color:#6B3FA0}
+.mbadge{display:inline-block;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600}
+.mbadge.norm{background:rgba(107,63,160,0.15);color:#4CAF8A;border:1px solid rgba(107,63,160,0.3)}
+.mbadge.above{background:rgba(201,168,76,0.12);color:#6B3FA0;border:1px solid var(--gold-border)}
+.mbadge.below{background:rgba(224,82,82,0.12);color:var(--red);border:1px solid rgba(224,82,82,0.3)}
+.merci{text-align:center;padding:8px 0}
+.merci-icon{font-size:52px;margin-bottom:20px}
+.merci-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;line-height:1.2}
+.merci-text{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:28px}
+.merci-text strong{color:var(--text)}
+.trust{display:flex;justify-content:center;gap:24px;margin-top:32px;flex-wrap:wrap}
+.tbadge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+.fadein{animation:fu .35s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:640px){
+  nav{padding:0 20px}
+  .nav-tag{display:none}
+  .card{padding:28px 20px}
+  .type-grid{grid-template-columns:repeat(3,1fr)}
+  .two-col,.res-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Plus de Listings</span>
+  <span class="nav-tag">Outil d'évaluation gratuit</span>
+</nav>
+
+<div class="page">
+  <div style="text-align:center;background:var(--dark);padding:40px 24px 0;width:100%">
+    <div class="top-badge"><span class="badge-dot"></span> Estimation gratuite et sans engagement</div>
+    <h1 class="page-title">Quelle est la valeur de<br/><em>votre propriété ?</em></h1>
+    <p class="page-sub">Obtenez une estimation gratuite basée sur les données municipales officielles et les ventes récentes de votre secteur.</p>
+  </div>
+
+  <div class="card fadein" id="card">
+
+    <div class="progress-wrap">
+      <div class="progress-step"><div class="pbar done" id="b1"></div><div class="plbl active" id="l1">Étape 1 — Votre propriété</div></div>
+      <div class="progress-step"><div class="pbar" id="b2"></div><div class="plbl" id="l2">Étape 2 — Vos coordonnées</div></div>
+      <div class="progress-step"><div class="pbar" id="b3"></div><div class="plbl" id="l3">Étape 3 — Résultats</div></div>
+    </div>
+
+    <!-- ÉTAPE 1 -->
+    <div id="s1">
+      <div class="step-header">
+        <div class="step-tag">Étape 1 de 3 — Votre propriété</div>
+        <div class="step-title">Votre propriété</div>
+        <div class="step-sub">Merci de remplir les champs suivants</div>
+      </div>
+
+      <div class="field" id="f-type">
+        <label class="flbl">Type de propriété<span class="req">*</span></label>
+        <div class="type-grid">
+          <button class="tbtn" onclick="selType('maison',this)"><span class="ticon">🏠</span><span class="tlbl">Maison</span></button>
+          <button class="tbtn" onclick="selType('jumele',this)"><span class="ticon">🏘️</span><span class="tlbl">Jumelé</span></button>
+          <button class="tbtn" onclick="selType('condo',this)"><span class="ticon">🏢</span><span class="tlbl">Condo</span></button>
+          <button class="tbtn" onclick="selType('terrain',this)"><span class="ticon">🌿</span><span class="tlbl">Terrain</span></button>
+          <button class="tbtn" onclick="selType('plex',this)"><span class="ticon">🏗️</span><span class="tlbl">Plex</span></button>
+        </div>
+        <div class="ferror" id="e-type">Veuillez choisir un type de propriété.</div>
+      </div>
+
+      <div class="field" id="f-region">
+        <label class="flbl">Région<span class="req">*</span></label>
+        <select class="fselect" id="sel-region" onchange="onRegion()">
+          <option value="">— Choisir une région —</option>
+          <option>Bas-Saint-Laurent</option><option>Saguenay–Lac-Saint-Jean</option>
+          <option>Capitale-Nationale</option><option>Mauricie</option><option>Estrie</option>
+          <option>Montréal</option><option>Outaouais</option><option>Abitibi-Témiscamingue</option>
+          <option>Côte-Nord</option><option>Nord-du-Québec</option>
+          <option>Gaspésie–Îles-de-la-Madeleine</option><option>Chaudière-Appalaches</option>
+          <option>Laval</option><option>Lanaudière</option><option>Laurentides</option>
+          <option>Montérégie</option><option>Centre-du-Québec</option>
+        </select>
+        <div class="ferror" id="e-region">Veuillez choisir une région.</div>
+      </div>
+
+      <div class="field" id="f-ville">
+        <label class="flbl">Ville<span class="req">*</span></label>
+        <select class="fselect" id="sel-ville"><option value="">— Choisir d'abord une région —</option></select>
+        <div class="ferror" id="e-ville">Veuillez sélectionner une ville.</div>
+      </div>
+
+      <div class="two-col">
+        <div class="field" id="f-num">
+          <label class="flbl">N° civique<span class="req">*</span></label>
+          <input class="finput" id="i-num" type="text" placeholder="123"/>
+          <div class="ferror" id="e-num">Requis.</div>
+        </div>
+        <div class="field" id="f-rue">
+          <label class="flbl">Nom de la rue<span class="req">*</span></label>
+          <input class="finput" id="i-rue" type="text" placeholder="Rue des Érables"/>
+          <div class="ferror" id="e-rue">Veuillez entrer le nom de la rue.</div>
+        </div>
+      </div>
+
+      <div class="field" id="f-cp">
+        <label class="flbl">Code postal<span class="req">*</span></label>
+        <input class="finput" id="i-cp" type="text" placeholder="H2X 1Y3" maxlength="7"/>
+        <div class="ferror" id="e-cp">Veuillez entrer votre code postal.</div>
+      </div>
+
+      <div class="field">
+        <label class="flbl">Évaluation municipale <span class="opt">(optionnel)</span></label>
+        <div class="iprefix-wrap"><span class="iprefix">$</span><input class="finput" id="i-eval" type="number" placeholder="350 000" min="0"/></div>
+        <div class="fhint">Valeur inscrite sur votre compte de taxes municipales</div>
+      </div>
+
+      <div class="field" id="f-raison">
+        <label class="flbl">Raison de la vente<span class="req">*</span></label>
+        <select class="fselect" id="sel-raison" onchange="ce('f-raison')">
+          <option value="">— Sélectionnez une raison —</option>
+          <option>Investissement</option><option>Trop petit</option><option>Trop grand</option>
+          <option>Retraite</option><option>Relocalisation</option><option>Changement de vie</option>
+          <option>Achat d'une autre propriété</option><option>Divorce</option>
+          <option>Succession</option><option>Difficultés financières</option><option>Autre</option>
+        </select>
+        <div class="ferror" id="e-raison">Veuillez sélectionner une raison de vente.</div>
+      </div>
+
+      <div class="field" id="f-precis">
+        <label class="flbl">Précisez<span class="req">*</span></label>
+        <textarea class="ftextarea" id="i-precis" maxlength="150" placeholder="Décrivez brièvement votre situation..." oninput="uc()"></textarea>
+        <div class="char-count" id="cc">0 / 150</div>
+        <div class="ferror" id="e-precis">Veuillez préciser votre raison (max 150 caractères).</div>
+      </div>
+
+      <div class="field">
+        <label class="flbl">Prix de vente souhaité <span class="opt">(optionnel)</span></label>
+        <div class="iprefix-wrap"><span class="iprefix">$</span><input class="finput" id="i-prix" type="number" placeholder="425 000" min="0"/></div>
+      </div>
+
+      <button class="btn-p" onclick="go2()">Continuer →</button>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div id="s2" style="display:none">
+      <div class="step-header">
+        <div class="step-tag">Étape 2 de 3 — Vos coordonnées</div>
+        <div class="step-title">Votre estimation est prête</div>
+        <div class="step-sub">Entrez vos coordonnées pour accéder à l'évaluation municipale officielle et aux ventes comparables de votre secteur.</div>
+      </div>
+
+      <div class="field" id="f-nom">
+        <label class="flbl">Prénom et nom<span class="req">*</span></label>
+        <input class="finput" id="i-nom" type="text" placeholder="Marie Tremblay"/>
+        <div class="ferror" id="e-nom">Veuillez entrer votre prénom et nom.</div>
+      </div>
+      <div class="field" id="f-tel">
+        <label class="flbl">Numéro de téléphone<span class="req">*</span></label>
+        <input class="finput" id="i-tel" type="tel" placeholder="514 555-0000"/>
+        <div class="ferror" id="e-tel">Veuillez entrer un numéro de téléphone valide.</div>
+      </div>
+      <div class="field" id="f-email">
+        <label class="flbl">Adresse courriel<span class="req">*</span></label>
+        <input class="finput" id="i-email" type="email" placeholder="marie@courriel.com"/>
+        <div class="ferror" id="e-email">Veuillez entrer une adresse courriel valide.</div>
+      </div>
+
+      <div class="legal">En obtenant votre évaluation gratuite, vous acceptez qu'un courtier immobilier de votre secteur puisse vous contacter par la suite pour vous offrir une évaluation complète et personnalisée — gratuite et sans engagement.</div>
+
+      <button class="btn-p" onclick="go3()">Obtenir mon évaluation →</button>
+      <button class="btn-s" onclick="show(1)">← Modifier ma propriété</button>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div id="s3" style="display:none">
+      <div class="res-header">
+        <div class="step-tag">Étape 3 de 3 — Résultats</div>
+        <h2>Résultats de votre évaluation</h2>
+        <p>Basée sur les données municipales et les ratios MAMH de votre région</p>
+      </div>
+
+      <div class="res-main">
+        <div class="res-main-lbl">Valeur marchande estimée</div>
+        <div class="res-range" id="r-four">— —</div>
+        <div class="res-note">Cette estimation est basée sur les données municipales et les ratios de marché. Elle ne remplace pas une évaluation professionnelle.</div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Estimation de la valeur</div>
+        <div class="res-grid">
+          <div class="ritem gold"><div class="ritem-lbl">Évaluation municipale</div><div class="ritem-val" id="r-eval">—</div></div>
+          <div class="ritem"><div class="ritem-lbl">Positionnement marché</div><div class="ritem-val"><span class="mbadge norm" id="r-pos">Normal</span></div></div>
+          <div class="ritem gold"><div class="ritem-lbl">Fourchette estimée</div><div class="ritem-val" id="r-four2">—</div></div>
+          <div class="ritem"><div class="ritem-lbl">Votre prix souhaité</div><div class="ritem-val" id="r-souh">—</div></div>
+        </div>
+        <p style="font-size:12px;color:var(--text3);line-height:1.65;margin-top:16px">Cette estimation succincte est basée sur l'évaluation municipale et les ventes récentes de propriétés similaires dans votre secteur. Certains critères importants ne sont pas inclus, tels que les rénovations, les travaux importants, la présence d'un garage, une intergénération, etc. Pour une évaluation complète et personnalisée, un courtier immobilier de votre secteur vous contactera.</p>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Ventes comparables · Source : APCIQ / Centris</div>
+        <div class="res-grid">
+          <div class="ritem"><div class="ritem-lbl">Prix médian des ventes</div><div class="ritem-val" id="r-med">—</div><div class="ritem-src">Propriétés similaires dans votre secteur</div></div>
+          <div class="ritem"><div class="ritem-lbl">Nombre de ventes</div><div class="ritem-val" id="r-nb">—</div><div class="ritem-src">12 derniers mois</div></div>
+          <div class="ritem"><div class="ritem-lbl">Délai moyen de vente</div><div class="ritem-val" id="r-del">—</div><div class="ritem-src">Propriétés similaires dans votre secteur</div></div>
+          <div class="ritem"><div class="ritem-lbl">Ratio liste / vente</div><div class="ritem-val" id="r-rat">—</div><div class="ritem-src">Marché actuel</div></div>
+        </div>
+      </div>
+
+      <div class="res-section merci">
+        <div class="merci-icon">🏡</div>
+        <div class="merci-title">Nous vous remercions d'avoir<br/>pris le temps de remplir ce formulaire.</div>
+        <p class="merci-text">Ce fut un plaisir de vous donner une estimation succincte de votre propriété.<br/><strong>Ceci sans engagement de votre part.</strong><br/><br/>Un courtier immobilier de votre secteur vous contactera sous peu pour une évaluation complète.</p>
+        <button class="btn-s" style="max-width:320px;margin:0 auto;display:block" onclick="reset()">Faire une nouvelle évaluation</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="trust">
+    <div class="tbadge">🔒 Données sécurisées</div>
+    <div class="tbadge">✅ 100% gratuit</div>
+    <div class="tbadge">🏛️ Données municipales officielles</div>
+  </div>
+  <p style="font-size:12px;color:var(--text3);margin-top:20px;text-align:center">© 2026 Plus de Listings. Tous droits réservés.</p>
+</div>
+
+<script>
+const V={
+  "Bas-Saint-Laurent":["Rimouski","Rivière-du-Loup","Matane","Amqui","Témiscouata-sur-le-Lac","La Pocatière"],
+  "Saguenay–Lac-Saint-Jean":["Saguenay","Alma","Dolbeau-Mistassini","Roberval","Saint-Félicien","Jonquière"],
+  "Capitale-Nationale":["Québec","Lévis","Saint-Augustin-de-Desmaures","Beaupré","Portneuf","L'Ancienne-Lorette"],
+  "Mauricie":["Trois-Rivières","Shawinigan","La Tuque","Louiseville","Maskinongé","Saint-Tite"],
+  "Estrie":["Sherbrooke","Granby","Magog","Coaticook","Windsor","Lac-Mégantic"],
+  "Montréal":["Montréal","Mont-Royal","Westmount","Côte-Saint-Luc","Outremont","Verdun","Rosemont","Plateau-Mont-Royal"],
+  "Outaouais":["Gatineau","Aylmer","Hull","Buckingham","Maniwaki","Lachute"],
+  "Abitibi-Témiscamingue":["Rouyn-Noranda","Val-d'Or","Amos","Ville-Marie","Malartic","La Sarre"],
+  "Côte-Nord":["Sept-Îles","Baie-Comeau","Port-Cartier","Havre-Saint-Pierre","Fermont","Forestville"],
+  "Nord-du-Québec":["Chibougamau","Chapais","Lebel-sur-Quévillon","Matagami","Radisson","Kuujjuaq"],
+  "Gaspésie–Îles-de-la-Madeleine":["Gaspé","New Richmond","Carleton-sur-Mer","Les Îles-de-la-Madeleine","Chandler","Sainte-Anne-des-Monts"],
+  "Chaudière-Appalaches":["Lévis","Saint-Georges","Sainte-Marie","Thetford Mines","Montmagny","Lac-Etchemin"],
+  "Laval":["Laval","Sainte-Rose","Chomedey","Vimont","Auteuil","Fabreville"],
+  "Lanaudière":["Joliette","Terrebonne","Repentigny","L'Assomption","Rawdon","Berthierville"],
+  "Laurentides":["Saint-Jérôme","Blainville","Mirabel","Sainte-Thérèse","Mont-Tremblant","Saint-Sauveur"],
+  "Montérégie":["Longueuil","Brossard","Saint-Jean-sur-Richelieu","Châteauguay","Sorel-Tracy","Vaudreuil-Dorion"],
+  "Centre-du-Québec":["Drummondville","Victoriaville","Nicolet","Bécancour","Plessisville","Warwick"]
+};
+const R={"Bas-Saint-Laurent":0.98,"Saguenay–Lac-Saint-Jean":0.98,"Capitale-Nationale":0.94,"Mauricie":0.97,"Estrie":0.96,"Montréal":0.92,"Outaouais":0.95,"Abitibi-Témiscamingue":0.99,"Côte-Nord":0.99,"Nord-du-Québec":1.0,"Gaspésie–Îles-de-la-Madeleine":0.99,"Chaudière-Appalaches":0.93,"Laval":0.89,"Lanaudière":0.91,"Laurentides":0.90,"Montérégie":0.91,"Centre-du-Québec":0.97};
+const M={"Montréal":{m:685000,v:142,d:"28 jours",r:"101%"},"Laval":{m:598000,v:87,d:"32 jours",r:"99%"},"Capitale-Nationale":{m:425000,v:96,d:"38 jours",r:"100%"},"Montérégie":{m:512000,v:118,d:"35 jours",r:"98%"},"Laurentides":{m:468000,v:74,d:"42 jours",r:"97%"},"Lanaudière":{m:445000,v:68,d:"39 jours",r:"98%"},"Outaouais":{m:462000,v:61,d:"40 jours",r:"99%"},"Estrie":{m:398000,v:55,d:"44 jours",r:"97%"},"default":{m:385000,v:52,d:"45 jours",r:"96%"}};
+
+let tp="";
+function selType(t,b){tp=t;document.querySelectorAll(".tbtn").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");ce("f-type")}
+function ce(id){document.getElementById(id)?.classList.remove("err")}
+function onRegion(){const r=g("sel-region").value;const sv=g("sel-ville");sv.innerHTML='<option value="">— Choisir une ville —</option>';if(r&&V[r])V[r].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;sv.appendChild(o)});ce("f-region")}
+function uc(){g("cc").textContent=g("i-precis").value.length+" / 150"}
+function g(id){return document.getElementById(id)}
+function fmt(n){return n.toLocaleString("fr-CA")+" $"}
+function show(n){["s1","s2","s3"].forEach((id,i)=>g(id).style.display=i+1===n?"block":"none");for(let i=1;i<=3;i++){g("b"+i).classList.toggle("done",i<=n);g("l"+i).classList.toggle("active",i===n)}const c=g("card");c.classList.remove("fadein");void c.offsetWidth;c.classList.add("fadein");window.scrollTo({top:0,behavior:"smooth"})}
+function go2(){let ok=1;if(!tp){g("f-type").classList.add("err");ok=0}if(!g("sel-region").value){g("f-region").classList.add("err");ok=0}if(!g("sel-ville").value){g("f-ville").classList.add("err");ok=0}if(!g("i-num").value.trim()){g("f-num").classList.add("err");ok=0}if(!g("i-rue").value.trim()){g("f-rue").classList.add("err");ok=0}if(!g("i-cp").value.trim()){g("f-cp").classList.add("err");ok=0}if(!g("sel-raison").value){g("f-raison").classList.add("err");ok=0}if(!g("i-precis").value.trim()){g("f-precis").classList.add("err");ok=0}if(ok)show(2)}
+function go3(){let ok=1;if(!g("i-nom").value.trim()){g("f-nom").classList.add("err");ok=0}if(!g("i-tel").value.replace(/\D/g,"").length>=10===false){g("f-tel").classList.add("err");ok=0}const em=g("i-email").value.trim();if(!em||!em.includes("@")||!em.includes(".")){g("f-email").classList.add("err");ok=0}if(!ok)return;const reg=g("sel-region").value;const ratio=R[reg]||0.93;const ev=parseFloat(g("i-eval").value)||0;const ps=parseFloat(g("i-prix").value)||0;const md=M[reg]||M["default"];let evalM,est;if(ev>0){evalM=ev;est=ev/ratio}else{est=md.m;evalM=Math.round(est*ratio)}const bas=Math.round(est*.97/1000)*1000;const haut=Math.round(est*1.03/1000)*1000;const f=fmt(bas)+" – "+fmt(haut);g("r-four").textContent=f;g("r-four2").textContent=f;g("r-eval").textContent=fmt(evalM);const diff=ps>0?(ps-est)/est*100:0;let pl="Normal",pc="norm";if(ps>0){if(diff>8){pl="Au-dessus du marché";pc="above"}else if(diff<-5){pl="En dessous du marché";pc="below"}else{pl="Dans la norme";pc="norm"}}g("r-pos").textContent=pl;g("r-pos").className="mbadge "+pc;g("r-souh").textContent=ps>0?fmt(ps):"Non précisé";g("r-med").textContent=fmt(md.m);g("r-nb").textContent=md.v+" ventes";g("r-del").textContent=md.d;g("r-rat").textContent=md.r;show(3)}
+function reset(){tp="";document.querySelectorAll(".tbtn").forEach(b=>b.classList.remove("sel"));document.querySelectorAll(".finput,.fselect,.ftextarea").forEach(el=>el.value="");g("sel-ville").innerHTML='<option value="">— Choisir d\'abord une région —</option>';g("cc").textContent="0 / 150";document.querySelectorAll(".field").forEach(f=>f.classList.remove("err"));show(1)}
+document.querySelectorAll(".finput,.fselect,.ftextarea").forEach(el=>["input","change"].forEach(ev=>el.addEventListener(ev,()=>el.closest(".field")?.classList.remove("err"))));
+</script>
+</body>
+</html>

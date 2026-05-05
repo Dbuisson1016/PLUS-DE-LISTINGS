@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Plus de Listings — Les vendeurs vous contactent, pas l'inverse !</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --mauve:#6B3FA0;--mauve-h:#7D4FBF;--mauve-light:rgba(107,63,160,0.13);--mauve-border:rgba(107,63,160,0.45);
+  --vert:#00A550;--vert-h:#00C060;
+  --bleu:#0B1F4A;--bleu2:#0F2A5E;--bleu3:#143272;--bleu4:#1A3D85;
+  --blanc:#FFFFFF;--text2:#B8CCEA;--text3:#8AADD4;
+  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bleu);color:var(--blanc);line-height:1.6;font-size:16px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 60px;height:64px;background:rgba(11,31,74,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;color:var(--mauve);text-decoration:none;letter-spacing:-0.3px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;color:var(--blanc);text-decoration:none;transition:color .2s;font-weight:500}
+.nav-links a:hover{color:var(--mauve)}
+.nav-cta{padding:9px 22px;background:var(--vert);color:var(--blanc)!important;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;white-space:nowrap}
+.nav-cta:hover{background:var(--vert-h)!important;transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 40px 80px;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 40%,rgba(107,63,160,0.08) 0%,transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border:1px solid var(--mauve-border);border-radius:100px;font-size:13px;color:var(--mauve);margin-bottom:36px;background:var(--mauve-light)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--mauve);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+h1{font-family:'Outfit',sans-serif;font-size:clamp(48px,8vw,96px);font-weight:700;line-height:1;letter-spacing:-2px;margin-bottom:28px;color:var(--blanc)}
+h1 em{font-style:italic;color:var(--vert)}
+.hero-sub{font-size:19px;color:var(--text2);max-width:520px;margin-bottom:44px;font-weight:300;line-height:1.7}
+.btn-vert{padding:17px 40px;background:var(--vert);color:var(--blanc);border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:all .25s;display:inline-block;border:none;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-vert:hover{background:var(--vert-h);transform:translateY(-2px);box-shadow:0 16px 48px rgba(0,165,80,0.35)}
+
+/* STATS */
+.stats{display:flex;justify-content:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat{flex:1;max-width:220px;text-align:center;padding:40px 20px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-val{font-family:'Outfit',sans-serif;font-size:40px;font-weight:700;color:var(--blanc);line-height:1}
+.stat-label{font-size:13px;color:var(--blanc);margin-top:6px;opacity:.8}
+
+/* SECTIONS */
+section{padding:64px 60px;max-width:1160px;margin:0 auto}
+.section-tag{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--mauve);margin-bottom:14px}
+h2{font-family:'Outfit',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:700;line-height:1.08;letter-spacing:-1px;margin-bottom:16px;color:var(--blanc)}
+.section-sub{font-size:17px;color:var(--text3);max-width:480px;line-height:1.7;margin-bottom:56px}
+
+/* POURQUOI NOUS */
+#pourquoi-nous{scroll-margin-top:64px}
+.reasons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.reason{background:var(--bleu2);padding:28px;display:flex;gap:16px;transition:background .2s}
+.reason:hover{background:var(--bleu3)}
+.reason-num{font-family:'Outfit',sans-serif;font-size:28px;font-weight:700;color:var(--mauve-light);min-width:32px;line-height:1;padding-top:2px;opacity:.6}
+.reason-title{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--blanc)}
+.reason-desc{font-size:13px;color:var(--text3);line-height:1.65}
+
+/* COMMENT CA MARCHE */
+#comment-ca-marche{scroll-margin-top:64px;padding-top:64px}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.step{padding:32px 28px;background:var(--bleu2);border:1px solid var(--border);border-radius:14px;transition:all .25s}
+.step:hover{border-color:var(--mauve-border);transform:translateY(-3px)}
+.step-num{font-family:'Outfit',sans-serif;font-size:52px;font-weight:900;color:var(--mauve);opacity:.25;line-height:1;margin-bottom:16px}
+.step-title{font-size:16px;font-weight:600;margin-bottom:10px;color:var(--blanc)}
+.step-desc{font-size:14px;color:var(--text3);line-height:1.7}
+
+/* FSA */
+.fsa-box{background:var(--bleu3);border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:24px}
+.fsa-label{font-size:13px;color:var(--text2);margin-bottom:14px}
+.fsa-regions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.fsa-region-btn{padding:8px 18px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.fsa-region-btn:hover,.fsa-region-btn.active{background:var(--mauve-light);border-color:var(--mauve-border);color:var(--mauve)}
+.fsa-codes{display:flex;gap:8px;flex-wrap:wrap;min-height:48px;padding:12px;background:var(--bleu4);border-radius:8px;margin-bottom:16px}
+.fsa-chip{padding:6px 14px;border-radius:100px;border:1px solid var(--border2);font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;background:transparent}
+.fsa-chip:hover{border-color:var(--mauve-border);color:var(--blanc)}
+.fsa-chip.selected{background:var(--mauve-light);border-color:var(--mauve);color:var(--mauve)}
+.fsa-summary{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding-top:12px;border-top:1px solid var(--border)}
+.fsa-pop{color:var(--text2)}.fsa-pop span{color:var(--blanc);font-weight:600}
+.fsa-price{color:var(--vert);font-weight:700;font-size:16px}
+.fsa-cta{margin-top:16px;width:100%;padding:14px;background:var(--vert);color:var(--blanc);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.fsa-cta:hover{background:var(--vert-h)}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.feature{padding:28px;background:var(--bleu2);border:1px solid var(--border);border-radius:14px;transition:all .25s}
+.feature:hover{border-color:var(--mauve-border)}
+.feature-icon{width:36px;height:36px;border-radius:8px;background:var(--mauve-light);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:16px}
+.feature-title{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--blanc)}
+.feature-desc{font-size:13px;color:var(--text3);line-height:1.7}
+
+/* TARIFS */
+#tarifs{scroll-margin-top:64px;padding-top:64px}
+.toggle-wrap{display:flex;background:var(--bleu3);border:1px solid var(--border);border-radius:8px;padding:4px;width:fit-content;margin-bottom:48px}
+.toggle-btn{padding:9px 22px;border-radius:6px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.toggle-btn.active{background:var(--vert);color:var(--blanc);}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.plan{padding:36px 32px;background:var(--bleu2);border:1px solid var(--border);border-radius:18px;position:relative;transition:all .3s}
+.plan:hover{transform:translateY(-4px)}
+.plan.featured{border-color:var(--mauve-border);background:var(--mauve-light)}
+.plan-badge{position:absolute;top:-11px;left:28px;background:var(--mauve);color:var(--blanc);font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 14px;border-radius:100px;text-transform:uppercase}
+.plan-name{font-size:14px;color:var(--text3);margin-bottom:4px}
+.plan-pop{font-size:12px;color:var(--text3);margin-bottom:20px}
+.plan-price{font-family:'Outfit',sans-serif;font-size:54px;font-weight:700;color:var(--blanc);line-height:1;white-space:nowrap}
+.plan-period{font-size:14px;color:var(--text3);margin-bottom:28px}
+.plan-note{font-size:12px;color:var(--text3);margin-bottom:20px;padding:10px 14px;background:rgba(255,255,255,0.04);border-radius:6px;line-height:1.5}
+.plan-features{list-style:none;margin-bottom:28px}
+.plan-features li{font-size:14px;color:var(--text2);padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;gap:10px}
+.plan-features li:last-child{border:none}
+.check{color:var(--vert);font-size:12px;margin-top:2px}
+.plan-cta{width:100%;padding:14px;border-radius:8px;border:1px solid var(--vert);background:transparent;color:var(--vert);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.plan-cta:hover,.plan.featured .plan-cta{background:var(--vert);color:var(--blanc)}
+.pricing-note{font-size:14px;color:var(--text3);max-width:600px;margin:28px auto 0;text-align:center;line-height:1.7}
+
+/* FAQ */
+#faq{scroll-margin-top:64px}
+.faq-list{max-width:760px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 0;cursor:pointer;font-size:16px;font-weight:500;gap:16px;color:var(--blanc)}
+.faq-q:hover{color:var(--mauve)}
+.faq-arrow{font-size:18px;color:var(--text3);transition:transform .25s;flex-shrink:0}
+.faq-a{font-size:14px;color:var(--text3);line-height:1.75;padding-bottom:22px;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-arrow{transform:rotate(45deg);color:var(--mauve)}
+
+/* FINAL CTA */
+.final-cta{text-align:center;padding:96px 40px;border-top:1px solid var(--border);position:relative}
+.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(107,63,160,0.07) 0%,transparent 70%);pointer-events:none}
+.final-cta h2{max-width:640px;margin:0 auto 24px}
+.final-cta p{font-size:17px;color:var(--text3);max-width:420px;margin:0 auto 40px;line-height:1.7}
+
+/* FOOTER */
+footer{padding:32px 60px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:var(--mauve)}
+.footer-text{font-size:13px;color:var(--text3)}
+.footer-email{font-size:13px;color:var(--vert);text-decoration:none}
+
+@media(max-width:700px){
+  nav{padding:0 20px}.nav-links a:not(.nav-cta){display:none}
+  section{padding:48px 24px}
+  .stats{flex-wrap:wrap}.stat{min-width:50%;border-right:none;border-bottom:1px solid var(--border)}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">Plus de Listings</a>
+  <div class="nav-links">
+    <a href="#pourquoi-nous">Pourquoi nous ?</a>
+    <a href="#comment-ca-marche">Comment ça marche ?</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#faq">FAQ</a>
+    <a class="nav-cta" href="#comment-ca-marche">Réservez votre secteur</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span> Secteurs disponibles au Québec</div>
+  <h1>Plus de vendeurs… Moins de prospection !</h1>
+  
+  <a class="btn-vert" href="#comment-ca-marche">Réservez votre secteur</a>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-val">100%</div><div class="stat-label">Secteur exclusif</div></div>
+  <div class="stat"><div class="stat-val">0</div><div class="stat-label">Appels à froid</div></div>
+  <div class="stat"><div class="stat-val">6</div><div class="stat-label">Infos par lead</div></div>
+</div>
+
+<section id="pourquoi-nous">
+  <div class="section-tag">Pourquoi nous choisir</div>
+  <h2>Pourquoi les courtiers<br/>nous choisissent ?</h2>
+  <p class="section-sub">Des raisons concrètes. Pas de promesses — des faits.</p>
+  <div class="reasons-grid" id="reasons"></div>
+</section>
+
+<section id="comment-ca-marche">
+  <div class="section-tag">Processus</div>
+  <h2>Comment ça marche ?</h2>
+  <p class="section-sub">Quatre étapes simples. En quelques minutes, votre secteur est actif.</p>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Choisissez votre secteur</div>
+      <div class="step-desc">Choisissez votre région — tous les codes FSA disponibles s'affichent avec leur population. Minimum 7 000 habitants requis.</div>
+      <div class="fsa-box">
+        <div class="fsa-label">Régions</div>
+        <div class="fsa-regions" id="region-btns"></div>
+        <div class="fsa-label" style="margin-top:12px">Codes FSA disponibles</div>
+        <div class="fsa-codes" id="fsa-chips"></div>
+        <div class="fsa-summary">
+          <div class="fsa-pop">Population sélectionnée : <span id="pop-total">0</span> habitants</div>
+          <div class="fsa-price" id="price-display"></div>
+        </div>
+        <button class="fsa-cta" onclick="reserverSecteur()">Réservez votre secteur</button>
+      </div>
+    </div>
+    <div class="step"><div class="step-num">02</div><div class="step-title">Consultez votre tarif</div><div class="step-desc">Le prix dépend du nombre d'habitants dans vos codes postaux. Transparent, sans surprise.</div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-title">On lance vos publicités</div><div class="step-desc">On crée et gère des campagnes de pub dans votre secteur, avec votre nom et le nom de votre agence.</div></div>
+    <div class="step"><div class="step-num">04</div><div class="step-title">Les vendeurs vous contactent</div><div class="step-desc">Vous recevez directement les leads : nom, téléphone, courriel, adresse, type de propriété et prix souhaité.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="section-tag">Pourquoi choisir Plus de Listings</div>
+  <h2>Tout ce qu'il vous faut<br/>pour développer votre marché</h2>
+  <p class="section-sub">Arrêtez de courir après les vendeurs. Laissez-les venir à vous.</p>
+  <div class="features-grid" id="features-grid"></div>
+</section>
+
+<section id="tarifs">
+  <div class="section-tag">Tarification</div>
+  <h2>Tarifs</h2>
+  <p class="section-sub">Le tarif dépend du nombre d'habitants dans votre secteur. Le grand marché offre une option annuelle.</p>
+  <div class="toggle-wrap">
+    <button class="toggle-btn active" id="toggle-mensuel" onclick="setToggle('mensuel')">Mensuel</button>
+    <button class="toggle-btn" id="toggle-annuel" onclick="setToggle('annuel')">Annuel — 1 mois gratuit</button>
+  </div>
+  <div class="pricing-grid" id="pricing-grid"></div>
+  <p class="pricing-note">Chaque secteur est calibré pour une diffusion efficace — minimum 7 000 habitants requis. Vos publicités sont optimisées en continu pour maximiser vos résultats.</p>
+</section>
+
+<section id="faq">
+  <div class="section-tag">Questions fréquentes</div>
+  <h2>Tout ce que vous<br/>voulez savoir</h2>
+  <div class="faq-list" id="faq-list"></div>
+</section>
+
+<div class="final-cta">
+  <h2>Recevez les coordonnées<br/>des vendeurs motivés</h2>
+  <p>Votre secteur vous attend. Réservez-le avant que quelqu'un d'autre le fasse.</p>
+  <a class="btn-vert" href="#comment-ca-marche">Réservez votre secteur</a>
+</div>
+
+<footer>
+  <div class="footer-logo">Plus de Listings</div>
+  <div class="footer-text">© 2026 Plus de Listings. Tous droits réservés.</div>
+  <a class="footer-email" href="mailto:info@plusdelistings.ca">info@plusdelistings.ca</a>
+</footer>
+
+<script>
+const reasons=[
+  ["Un investissement rentable dès la première vente.","Votre commission sur une seule vente couvre plusieurs mois d'abonnement. Le calcul est simple."],
+  ["Un secteur exclusif — le vôtre.","Un seul courtier par code postal. Les leads vendeurs de votre secteur ne sont envoyés qu'à vous. Personne d'autre."],
+  ["Des vendeurs motivés à vendre.","Notre outil d'évaluation attire des propriétaires en réflexion. Vous recevez leur nom, courriel et numéro de téléphone — pas des curieux, que des vendeurs motivés."],
+  ["Des prix affichés, sans surprise.","Vous voyez le prix avant de vous engager. Pas de soumission à demander, pas de frais cachés, pas de contrat annuel obligatoire."],
+  ["Rien à gérer.","Pas de campagne de pub à monter ni de contenu à produire. Aucune perte de temps."],
+  ["Le vendeur fait le premier pas.","Pas de cold call, pas de porte-à-porte. Le vendeur donne volontairement ses coordonnées parce qu'il veut vendre."],
+  ["Actif 24h/24.","Vos publicités tournent même quand vous êtes en rendez-vous, en vacances ou en train de souper. Les vendeurs remplissent l'évaluation à toute heure."],
+  ["Un lead = un vendeur qui veut vendre.","Pas un curieux. Le vendeur a entré son adresse, son type de propriété, sa raison de vente et son délai. Il est prêt."],
+  ["Concentrez-vous sur ce qui rapporte.","Arrêtez de chercher des clients. Passez votre temps à faire des évaluations, des visites et des ventes."],
+  ["Votre secteur, verrouillé.","Un seul courtier par code postal sur notre plateforme. Personne d'autre ne reçoit vos leads."],
+  ["Vos leads livrés chaque matin à 6h.","Quand un vendeur complète une évaluation dans votre secteur, vous recevez ses coordonnées complètes par courriel le lendemain matin. Pas de lead = pas de courriel inutile."],
+  ["Votre nom, votre agence.","Le vendeur voit votre nom et le nom de votre agence à la fin de l'évaluation. Pour lui, c'est votre outil. Votre marque, votre crédibilité."]
+];
+const features=[
+  ["🎯","Des vendeurs motivés qui viennent à vous","Ils ont demandé une évaluation. Ils ont donné leur nom, téléphone et courriel volontairement. Ce ne sont pas des inconnus — ce sont des gens qui attendent votre appel."],
+  ["🔒","Votre secteur exclusif","Personne d'autre ne peut réserver vos codes postaux. Votre secteur est protégé. Avec Plus de Listings, c'est votre marché."],
+  ["📣","Votre visibilité locale","Des campagnes de pub dans votre secteur avec votre nom et votre agence. Le vendeur voit votre identité à la fin de l'évaluation — avant même de vous parler."],
+  ["📋","Des leads qualifiés, pas juste des clics","Vous recevez le nom, téléphone, courriel, adresse, type de propriété et le prix souhaité. Tout ce qu'il vous faut pour préparer votre premier appel."],
+  ["🚫","Zéro prospection","Plus de porte-à-porte, plus d'appels à froid. Le vendeur fait la démarche lui-même. Il vous demande de le rappeler."],
+  ["📊","Estimation basée sur votre marché","Le vendeur voit une estimation basée sur les ventes récentes dans son secteur. Ça crée la confiance et établit des attentes réalistes."],
+  ["📧","Vos leads par courriel chaque matin","Quand un vendeur complète une évaluation dans votre secteur, vous recevez ses coordonnées complètes à 6h. Pas de lead = pas de courriel inutile."],
+  ["🗓️","Pas d'engagement à long terme","Mensuel ou annuel, vous annulez quand vous voulez. Aucun contrat. Aucune pénalité. Vous restez parce que ça marche, pas parce que vous êtes pris."]
+];
+const faqs=[
+  ["Qu'est-ce qu'un code FSA ?","Un FSA (Forward Sortation Area) correspond aux 3 premiers caractères d'un code postal canadien. Il délimite un secteur géographique précis. Vous pouvez sélectionner plusieurs FSA pour couvrir un territoire plus large."],
+  ["Est-ce que mes codes postaux sont vraiment exclusifs ?","Oui. Une fois qu'un courtier réserve un FSA, ce code lui est attribué exclusivement. Aucun autre courtier ne peut le réserver tant que l'abonnement est actif."],
+  ["Comment fonctionne l'outil d'évaluation ?","Le vendeur entre son adresse, le type de propriété et son évaluation municipale. Notre outil calcule une estimation basée sur le ratio MAMH de sa municipalité. À la fin, il voit votre nom et votre agence — et demande à être rappelé."],
+  ["Quel type d'informations je reçois par lead ?","Vous recevez : le nom complet, le téléphone, le courriel, l'adresse complète, le type de propriété, la tranche de prix souhaitée et le délai de vente."],
+  ["Quand est-ce que je reçois les leads ?","Chaque matin à 6h, vous recevez un récapitulatif des évaluations complétées dans votre secteur la veille. Pas de lead = pas de courriel inutile."],
+  ["Puis-je annuler à tout moment ?","Oui. Aucun contrat à long terme. Vous annulez quand vous voulez, sans pénalité. Votre secteur redevient disponible pour un autre courtier."],
+  ["Comment les publicités sont-elles gérées ?","On s'occupe de tout. On crée, lance et optimise les campagnes dans votre secteur avec votre nom et le nom de votre agence. Vous n'avez rien à faire."],
+  ["Combien coûte le service ?","Le prix dépend du nombre d'habitants dans votre secteur : 699$/mois pour 7 000–10 000 habitants, 1 199$/mois pour 10 000–50 000 habitants, et 2 499$/mois pour plus de 50 000 habitants."]
+];
+const fsaData={
+  "Montréal":[{code:"H1A",pop:38200},{code:"H1B",pop:42100},{code:"H1C",pop:31500},{code:"H2X",pop:28900},{code:"H2Y",pop:19800},{code:"H3B",pop:22400},{code:"H3H",pop:35600},{code:"H4A",pop:29300}],
+  "Québec":[{code:"G1A",pop:18700},{code:"G1J",pop:31200},{code:"G1K",pop:27800},{code:"G1N",pop:33100},{code:"G1R",pop:21500},{code:"G2B",pop:38900}],
+  "Laval":[{code:"H7A",pop:44200},{code:"H7B",pop:39800},{code:"H7C",pop:41500},{code:"H7E",pop:35600},{code:"H7G",pop:28900}],
+  "Rive-Sud":[{code:"J4B",pop:31400},{code:"J4G",pop:28700},{code:"J4H",pop:25900},{code:"J4K",pop:33200},{code:"J4L",pop:29800}],
+  "Laurentides":[{code:"J5A",pop:18200},{code:"J7A",pop:22400},{code:"J7B",pop:19800},{code:"J7C",pop:17300},{code:"J7E",pop:24100}]
+};
+let selFSA={},activeReg="Montréal",billing="mensuel";
+function renderReg(){document.getElementById("region-btns").innerHTML=Object.keys(fsaData).map(r=>`<button class="fsa-region-btn ${r===activeReg?"active":""}" onclick="setReg('${r}')">${r}</button>`).join("")}
+function renderChips(){document.getElementById("fsa-chips").innerHTML=(fsaData[activeReg]||[]).map(({code,pop})=>`<div class="fsa-chip ${selFSA[code]?"selected":""}" onclick="toggleFSA('${code}',${pop})">${code} <span style="font-size:11px;opacity:.6">${(pop/1000).toFixed(0)}k</span></div>`).join("")}
+function getPrix(p){if(p<7000)return null;if(p<=10000)return billing==="annuel"?699*11:699;if(p<=50000)return billing==="annuel"?1199*11:1199;return billing==="annuel"?2499*11:2499}
+function updateSum(){const p=Object.values(selFSA).reduce((a,b)=>a+b,0);document.getElementById("pop-total").textContent=p.toLocaleString("fr-CA");const px=getPrix(p);document.getElementById("price-display").textContent=px?(px.toLocaleString("fr-CA")+(billing==="annuel"?" $/an":" $/mois")):""}
+function setReg(r){activeReg=r;renderReg();renderChips()}
+function toggleFSA(c,p){if(selFSA[c])delete selFSA[c];else selFSA[c]=p;renderChips();updateSum()}
+function reserverSecteur(){const p=Object.values(selFSA).reduce((a,b)=>a+b,0);if(p<7000){alert("Veuillez sélectionner au moins 7 000 habitants.");return}window.location.href="mailto:info@plusdelistings.ca?subject=Réservation de secteur&body=Codes FSA: "+Object.keys(selFSA).join(", ")+". Population: "+p.toLocaleString("fr-CA")+" habitants."}
+document.getElementById("reasons").innerHTML=reasons.map(([t,d],i)=>`<div class="reason"><div class="reason-num">${i+1}</div><div><div class="reason-title">${t}</div><div class="reason-desc">${d}</div></div></div>`).join("");
+document.getElementById("features-grid").innerHTML=features.map(([icon,t,d])=>`<div class="feature"><div class="feature-icon">${icon}</div><div class="feature-title">${t}</div><div class="feature-desc">${d}</div></div>`).join("");
+function renderPricing(){
+  const plans=[
+    {name:"Petit marché",pop:"7 000 – 10 000 habitants",m:699,a:null,f:false},
+    {name:"Marché moyen",pop:"10 000 – 50 000 habitants",m:1199,a:null,f:true},
+    {name:"Grand marché",pop:"Plus de 50 000 habitants",m:2499,a:27489,f:false}
+  ];
+  const feats=["Secteur exclusif réservé","Campagnes de pub gérées pour vous","Leads complets avec coordonnées","Leads livrés par courriel chaque matin","Annulation à tout moment"];
+  document.getElementById("pricing-grid").innerHTML=plans.map(p=>{
+    const sa=billing==="annuel"&&p.a;
+    const prix=sa?(p.a/12).toFixed(0):p.m;
+    const note=sa?`Facturé <strong>27&nbsp;489&nbsp;$/an</strong> — Économisez 2&nbsp;499&nbsp;$`:billing==="annuel"?"Mensuel seulement — pas d'option annuelle":"";
+    return`<div class="plan ${p.f?"featured":""}">
+      ${p.f?"<div class='plan-badge'>Populaire</div>":""}
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-pop">${p.pop}</div>
+      <div class="plan-price">${parseInt(prix).toLocaleString("fr-CA")}$</div>
+      <div class="plan-period">/mois</div>
+      ${note?`<div class="plan-note">${note}</div>`:""}
+      <ul class="plan-features">${feats.map(f=>`<li><span class="check">✓</span>${f}</li>`).join("")}</ul>
+      <button class="plan-cta" onclick="location.href='#comment-ca-marche'">Réservez votre secteur</button>
+    </div>`
+  }).join("")
+}
+function setToggle(m){billing=m;document.getElementById("toggle-mensuel").classList.toggle("active",m==="mensuel");document.getElementById("toggle-annuel").classList.toggle("active",m==="annuel");renderPricing();updateSum()}
+document.getElementById("faq-list").innerHTML=faqs.map(([q,a])=>`<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">${q}<span class="faq-arrow">+</span></div><div class="faq-a">${a}</div></div>`).join("");
+renderReg();renderChips();renderPricing();updateSum();
+</script>
+</body>
+</html>
